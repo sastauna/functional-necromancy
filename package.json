@@ -1,0 +1,11 @@
+{
+   "name": "functional-graveyard",
+   "authors": [
+      "coalpha",
+      "j1ng3r"
+   ],
+   "type": "module",
+   "devDependencies": {
+      "ava": "^5.2.0"
+   }
+}
