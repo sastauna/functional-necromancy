@@ -16,7 +16,7 @@ function zip(as, bs) {
 const coerce_to_array = t_or_ts => Array.isArray(t_or_ts) ? t_or_ts : [t_or_ts];
 
 /**
- * (Stands for Rob Pike)
+ * (Stands for Rob Pike (it doesn't actually))
  *
  * @param {number} arity
  * @param {Function[]} fns
@@ -43,7 +43,7 @@ export const pike = (arity, fns, selectors) => (...outside) => {
    const instructions = zip(fns, selectors.map(coerce_to_array));
    for (let instruction_idx in instructions) {
       const [fn, selections] = instructions[instruction_idx];
-      const args = indices.map(idx => tape[idx]);
+      const args = selections.map(idx => tape[idx]);
       const tape_idx_of_fn = arity + instruction_idx;
       tape[tape_idx_of_fn] = fn(...args);
    }
