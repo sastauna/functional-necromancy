@@ -1,26 +1,11 @@
-/** @typedef {number & {}} index */
+import * as S from "./shared.js";
 
 /**
- * @type {{<a, b>(as: a[], bs: b[]): [a, b][]}} zip
- */
-function zip(as, bs) {
-   if (as.length !== bs.length) {
-      throw new Error("Contract violation: a.length !== b.length");
-   }
-   return as.map((a, i) => [a, bs[i]]);
-}
-
-/**
- * @type {{<t>(t_or_ts: t | t[]): t[]}} coerce_to_array
- */
-const coerce_to_array = t_or_ts => Array.isArray(t_or_ts) ? t_or_ts : [t_or_ts];
-
-/**
- * (Stands for Rob Pike (it doesn't actually))
+ * (Stands for Rob Pike)
  *
  * @param {number} arity
- * @param {Function[]} fns
- * @param {(index | index[])[]} selectors
+ * @param {S.any_fn[]} fns
+ * @param {(S.index | S.index[])[]} selectors
  *
  * Executes fns ltr. Function arguments are determined by their corresponding
  * selector which is an index into the tape.
@@ -40,7 +25,7 @@ export const pike = (arity, fns, selectors) => (...outside) => {
       var padding = [];
    }
    const tape = [...outside_used, ...padding, ...fns];
-   const instructions = zip(fns, selectors.map(coerce_to_array));
+   const instructions = S.zip(fns, selectors.map(S.coerce_to_array));
    for (let instruction_idx in instructions) {
       const [fn, selections] = instructions[instruction_idx];
       const args = selections.map(idx => tape[idx]);
